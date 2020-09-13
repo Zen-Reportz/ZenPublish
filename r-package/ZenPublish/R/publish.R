@@ -2,8 +2,9 @@
 publish <- function() {
 
   # Get the document context.
-  context <- rstudioapi::getSourceEditorContext()$path
-  expr <- paste0("zen publish")
+  context <- normalizePath(dirname(rstudioapi::getSourceEditorContext()$path))
+
+  expr <- paste0("zen publish ", context)
   result = tryCatch({
     system(expr, intern = FALSE)
   }, warning = function(war) {
