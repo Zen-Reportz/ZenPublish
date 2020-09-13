@@ -1,0 +1,4 @@
+Name: 'Zen Publish' builder
+Description: Publish Report
+Binding: publish
+Interactive: false

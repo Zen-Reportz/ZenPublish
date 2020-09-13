@@ -4,7 +4,7 @@ with open("../README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="Zen Publish", # Replace with your own username
+    name="Zen Publish",  # Replace with your own username
     version="0.0.1",
     author="Dr. P. B. Patel",
     author_email="contact.zenreportz@gmail.com",
