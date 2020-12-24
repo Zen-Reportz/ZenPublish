@@ -50,6 +50,11 @@ def publish(path):
 def publish_s(path):
     return helper._publish(path)
 
+# @click.command()
+# def get_ek():
+#     return helper._get_encryption_key()
+
+
 
 zen.add_command(update)
 zen.add_command(update_s)
@@ -57,6 +62,7 @@ zen.add_command(create)
 zen.add_command(create_s)
 zen.add_command(publish)
 zen.add_command(publish_s)
+# zen.add_command(get_encryption_key)
 
 if __name__ == '__main__':
     zen()

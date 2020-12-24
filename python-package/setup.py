@@ -1,15 +1,15 @@
 import setuptools
 
-with open("../README.md", "r") as fh:
-    long_description = fh.read()
+# with open("../README.md", "r") as fh:
+#     long_description = fh.read()
 
 setuptools.setup(
-    name="Zen Publish",  # Replace with your own username
-    version="0.0.1",
+    name="zen",  # Replace with your own username
+    version="0.0.2",
     author="Dr. P. B. Patel",
     author_email="contact.zenreportz@gmail.com",
     description="Package for Zen Reports",
-    long_description=long_description,
+    long_description="",
     long_description_content_type="text/markdown",
     url="",
     packages=setuptools.find_packages(),
@@ -21,9 +21,10 @@ setuptools.setup(
     install_requires=[
         'click', 'pyyaml', 'click', 'requests'
     ],
-    python_requires='>=3',
-    entry_points='''
-        [console_scripts]
-        zen=main:zen
-    ''',
+    python_requires='>=2',
+    entry_points={
+        "console_scripts": [
+            "zen=main:zen"
+        ]
+    },
 )

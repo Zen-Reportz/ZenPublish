@@ -1,10 +1,11 @@
 import copy
 import os
 import shutil
-
 import requests
 import yaml
 from click import UsageError
+import json
+import base64
 
 
 def _create(key, secret, url):
@@ -67,12 +68,14 @@ def _publish(path):
                     raise UsageError(f"{b.capitalize()} is not provided in config")
             config = copy.deepcopy(data)
 
-    shutil.make_archive("..", "zip", ".")
+    shutil.make_archive(".", "zip", ".")
     upload_file['zip_file'] = open(f"{path}.zip", "rb")
 
     data['access_key'] = zen_data.get("key")
     data['secret_key'] = zen_data.get("secret")
-    r = requests.post(f"{zen_data['url']}/api/publish/", files=upload_file, data=data)
+    r = requests.post( f"{zen_data['url']}api/access_api/publish", files=upload_file, data=data)
+    os.remove(f"{path}.zip")
+
     if r.status_code != 200:
         print(r.status_code)
         raise UsageError(r.text)
@@ -80,6 +83,17 @@ def _publish(path):
         config['id'] = str(r.json()["id"])
         with open("config.yml".format(base_path), "w") as f:
             yaml.dump(config, f)
+
     os.chdir(old_path)
 
     return "publish report"
+
+#
+# def _get_encryption_key():
+#     base_path = os.path.expanduser("~")
+#
+#     with open(f"{base_path}/.zen/setting.yml", "w") as f:
+#         data = yaml.safe_load(f)
+#
+#     secret = data["secret"]
+#     return base64.decode(secret)
