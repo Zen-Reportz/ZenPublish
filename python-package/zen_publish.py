@@ -1,11 +1,11 @@
+import click
+
 import copy
 import os
 import shutil
 import requests
 import yaml
 from click import UsageError
-import json
-import base64
 
 
 def _create(key, secret, url):
@@ -97,3 +97,62 @@ def _publish(path):
 #
 #     secret = data["secret"]
 #     return base64.decode(secret)
+
+@click.group()
+def cli():
+    pass
+
+
+@click.command()
+@click.option('--key', prompt='what is your access key?', help='What is your access key?')
+@click.option('--secret', prompt='what is your secret key?', help='What is your secret key?')
+@click.option('--url', prompt='what is zen report url?', help='what is zen report url?')
+def create(key, secret, url):
+    return _create(key, secret, url)
+
+
+@click.command()
+@click.option('--key')
+@click.option('--secret')
+@click.option('--url')
+def create_s(key, secret, url):
+    return _create(key, secret, url)
+
+
+@click.command()
+@click.option('--key', prompt='what is your access key?', help='What is your access key?')
+@click.option('--secret', prompt='what is your secret key?', help='What is your secret key?')
+def update(key, secret):
+    return _update(key, secret)
+
+
+@click.command()
+@click.option('--key')
+@click.option('--secret')
+def update_s(key, secret):
+    return _update(key, secret)
+
+
+@click.command()
+@click.option('--path', default=os.getcwd(), help="folder to look into")
+def publish(path):
+    return _publish(path)
+
+
+@click.command()
+@click.option('--path')
+def publish_s(path):
+    return _publish(path)
+
+
+
+cli.add_command(update)
+cli.add_command(update_s)
+cli.add_command(create)
+cli.add_command(create_s)
+cli.add_command(publish)
+cli.add_command(publish_s)
+# zen.add_command(get_encryption_key)
+
+if __name__ == '__main__':
+    cli()
