@@ -73,9 +73,9 @@ def _publish(path):
 
     data['access_key'] = zen_data.get("key")
     data['secret_key'] = zen_data.get("secret")
-    r = requests.post( f"{zen_data['url']}api/access_api/publish", files=upload_file, data=data)
-    os.remove(f"{path}.zip")
 
+    r = requests.post( f"{zen_data['url']}api/access_api/publish/", files=upload_file, data=data)
+    os.remove(f"{path}.zip")
     if r.status_code != 200:
         print(r.status_code)
         raise UsageError(r.text)
