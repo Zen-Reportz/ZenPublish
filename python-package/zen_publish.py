@@ -73,13 +73,16 @@ def _publish(path):
 
     data['access_key'] = zen_data.get("key")
     data['secret_key'] = zen_data.get("secret")
-
-    r = requests.post( f"{zen_data['url']}publish/report", files=upload_file, data=data)
+    print(f"{zen_data['url']}publish/report")
+    r = requests.post( f"{zen_data['url']}publish/report/", files=upload_file, data=data)
     os.remove(f"{path}.zip")
     if r.status_code != 200:
         print(r.status_code)
         raise UsageError(r.text)
     else:
+        # print(r)
+        # print(r.__dict__)
+        # print(r.json())
         config['id'] = str(r.json()["id"])
         with open("config.yml".format(base_path), "w") as f:
             yaml.dump(config, f)
