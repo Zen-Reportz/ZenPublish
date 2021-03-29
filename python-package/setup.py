@@ -5,7 +5,7 @@ def read_text(file_name: str):
 
 setuptools.setup(
     name="zen-publish",  # Replace with your own username
-    version="0.0.11",
+    version="0.0.13",
     author="Dr. P. B. Patel",
     author_email="contact.zenreportz@gmail.com",
     description="Package for Zen Reports",

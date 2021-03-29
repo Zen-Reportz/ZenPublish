@@ -1,0 +1,22 @@
+language: R
+r_packages:
+- package: DT
+  code: install.packages("DT", dependencies = TRUE, repos = "http://cran.us.r-project.org")
+- package: shiny
+  method: cran
+- package: golem
+  method: cran
+  version: latest
+- package: processx
+  method: cran
+  version: latest
+  dependencies: true
+- package: attempt
+  dependencies: true
+  method: cran
+- package: glue
+  method: cran
+- package: htmltools
+  method: cran
+title: R golem Example
+type: golem

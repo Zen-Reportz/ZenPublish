@@ -1,0 +1,6 @@
+language: R
+r_conda_packages:
+  r-rmarkdown: latest
+title: r-pdf-example
+type: Markdown
+version: 3.5

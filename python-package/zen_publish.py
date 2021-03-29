@@ -1,10 +1,10 @@
 import click
-
+import webbrowser
 import copy
 import os
 import shutil
 import requests
-import yaml
+import oyaml as yaml
 from click import UsageError
 
 
@@ -39,7 +39,7 @@ def _update(key, secret):
     return "updated value"
 
 
-def _publish(path):
+def _publish(path, fresh):
     old_path = os.getcwd()
     if path != old_path:
         os.chdir(path)
@@ -66,40 +66,41 @@ def _publish(path):
             for b in break_list:
                 if b not in data.keys():
                     raise UsageError(f"{b.capitalize()} is not provided in config")
+            if fresh:
+                data.pop('id', None)
+                with open("config.yml".format(base_path), "w") as f:
+                    yaml.dump(data, f)
             config = copy.deepcopy(data)
+    type = config.get('type')
 
     shutil.make_archive(".", "zip", ".")
     upload_file['zip_file'] = open(f"{path}.zip", "rb")
 
     data['access_key'] = zen_data.get("key")
     data['secret_key'] = zen_data.get("secret")
-    print(f"{zen_data['url']}publish/report")
+    publish_url = zen_data['url']
+    if publish_url[-1] != "/":
+        publish_url = publish_url + "/"
+    print(f"{zen_data['url']}publish/report/")
     r = requests.post( f"{zen_data['url']}publish/report/", files=upload_file, data=data)
     os.remove(f"{path}.zip")
     if r.status_code != 200:
         print(r.status_code)
+        if r.status_code == 402:
+            print("You have used all reports, need to updagrade Zen Reportz")
         raise UsageError(r.text)
     else:
-        # print(r)
-        # print(r.__dict__)
-        # print(r.json())
-        config['id'] = str(r.json()["id"])
+        report_id = str(r.json()["id"])
+        config['id'] = report_id
         with open("config.yml".format(base_path), "w") as f:
             yaml.dump(config, f)
+        url_to_open = publish_url + f'report-application/{report_id}?type={type}&open=true'
+        webbrowser.open(url_to_open)
 
-    os.chdir(old_path)
+        os.chdir(old_path)
 
     return "publish report"
 
-#
-# def _get_encryption_key():
-#     base_path = os.path.expanduser("~")
-#
-#     with open(f"{base_path}/.zen/setting.yml", "w") as f:
-#         data = yaml.safe_load(f)
-#
-#     secret = data["secret"]
-#     return base64.decode(secret)
 
 @click.group()
 def cli():
@@ -138,8 +139,9 @@ def update_s(key, secret):
 
 @click.command()
 @click.option('--path', default=os.getcwd(), help="folder to look into")
-def publish(path):
-    return _publish(path)
+@click.option('--fresh', default=False, help="folder to look into")
+def publish(path, fresh):
+    return _publish(path, fresh)
 
 
 @click.command()
