@@ -1,0 +1,25 @@
+language: R
+r_packages:
+- package: DT
+  method: cran
+- package: r-nortest
+  method: conda
+  channel: conda-forge
+- package: r-tseries
+  method: conda
+  channel: conda-forge
+- package: r-RcmdrMisc
+  method: conda
+  channel: conda-forge
+- package: r-lmtest
+  method: conda
+  channel: conda-forge
+- package: r-shiny
+  method: conda
+  channel: conda-forge
+- package: r-golem
+  method: conda
+  channel: conda-forge
+title: R golem Example
+type: golem
+id: '2'
