@@ -1,25 +1,25 @@
-import setuptools
+from setuptools import setup
 
-def read_text(file_name: str):
+def read_text(file_name):
     return open(file_name).read()
 
-setuptools.setup(
+setup(
     name="zen-publish",  # Replace with your own username
-    version="0.0.17",
+    version="0.0.19",
     author="Dr. P. B. Patel",
     author_email="contact.zenreportz@gmail.com",
     description="Package for Zen Reports",
     long_description= read_text("README.md"),
     long_description_content_type="text/markdown",
     url="",
-    py_modules = ["zen_publish"],
+   packages=['zen_publish', "zen_publish.core", "zen_publish.support"],  #same as name
     # packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'click', 'pyyaml', 'requests'
+        'click', 'oyaml', 'requests', 
     ],
     python_requires='>=3',
     dependency_links=['https://github.com/Zen-Reportz/ZenPublish/tree/master/python-package'],

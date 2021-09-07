@@ -20,3 +20,8 @@ python-package/dist/*
 /zenpublish/package-lock.json
 /zenpublish/package.json
 *.pyc
+python-package/.eggs/*
+python-package/build/*
+python-package/venv/*
+python-package/venv_test/*
+python-package/dist/*
